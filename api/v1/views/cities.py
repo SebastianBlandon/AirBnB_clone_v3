@@ -72,7 +72,7 @@ def put_city(city_id):
         abort(404)
     if not request.get_json():
         abort(400, description="Not a JSON")
-    ignore = ['id', 'created_at', 'updated_at']
+    ignore = ['id', 'state_id', 'created_at', 'updated_at']
     data = request.get_json()
     for key, value in data.items():
         if key not in ignore:
