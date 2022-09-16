@@ -22,7 +22,7 @@ def get_amenities():
 
 @app_views.route('/amenities/<amenity_id>', methods=['GET'],
                  strict_slashes=False)
-def get_amenities(amenity_id):
+def get_amenity(amenity_id):
     """ Retrieves a specific Amenity """
     ame_obj = storage.get(Amenity, amenity_id)
     if not ame_obj:
