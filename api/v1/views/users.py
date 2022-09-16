@@ -48,8 +48,8 @@ def post_user():
         abort(400, description="Not a JSON")
     if 'email' not in data:
         abort(400, description="Missing email")
-    if 'name' not in data:
-        abort(400, description="Missing name")
+    if 'password' not in data:
+        abort(400, description="Missing password")
     instance = User(**data)
     instance.save()
     return make_response(jsonify(instance.to_dict()), 201)
