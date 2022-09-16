@@ -86,4 +86,4 @@ def put_place(place_id):
         if key not in ignore:
             setattr(place, key, value)
     storage.save()
-    return make_response(jsonify(city.to_dict()), 200)
+    return make_response(jsonify(place.to_dict()), 200)
