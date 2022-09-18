@@ -4,13 +4,11 @@
     that handles all default RESTFul API actions:
 """
 from models.amenity import Amenity
-from models.city import City
 from models.place import Place
-from models.review import Review
-from models.user import User
 from models import storage
 from api.v1.views import app_views
-from flask import abort, jsonify, make_response, request
+from flask import abort, jsonify, make_response
+import os
 
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET'],
@@ -34,7 +32,15 @@ def delete_place_amenity(place_id, amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if not place or not amenity:
         abort(404)
-    storage.delete(amenity)
+
+    if os.environ.get('HBNB_TYPE_STORAGE') == "db":
+        if amenity not in place.amenities:
+            abort(404)
+        storage.delete(amenity)
+    else:
+        if amenity_id not in place.amenity_ids:
+            abort(404)
+        storage.delete(amenity_id)
     storage.save()
     return make_response(jsonify({}), 200)
 
@@ -47,5 +53,5 @@ def post_place_amenity(place_id, amenity_id):
     amenity = storage.get(Amenity, amenity_id)
     if not place or not amenity:
         abort(404)
-
+    
     return make_response(jsonify(amenity.to_dict()), 201)
