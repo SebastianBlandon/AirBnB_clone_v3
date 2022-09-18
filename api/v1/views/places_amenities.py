@@ -36,11 +36,12 @@ def delete_place_amenity(place_id, amenity_id):
     if os.environ.get('HBNB_TYPE_STORAGE') == "db":
         if amenity not in place.amenities:
             abort(404)
-        storage.delete(amenity)
+        place.amenities.remove(amenity)
     else:
         if amenity_id not in place.amenity_ids:
             abort(404)
-        storage.delete(amenity_id)
+        place.amenities.remove(amenity_id)
+
     storage.save()
     return make_response(jsonify({}), 200)
 
